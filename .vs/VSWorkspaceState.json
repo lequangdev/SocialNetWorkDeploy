@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\assets",
+    "\\src\\cloudinary",
+    "\\src\\router",
+    "\\src\\services",
+    "\\src\\store",
+    "\\src\\view",
+    "\\src\\view\\auth"
+  ],
+  "SelectedNode": "\\src\\router\\router.js",
+  "PreviewInSolutionExplorer": false
+}
