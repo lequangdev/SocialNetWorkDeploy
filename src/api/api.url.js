@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:5100";
+const API_BASE = "https://reverseproxy-wtdv.onrender.com";
 
 export const API_URLS = {
 
