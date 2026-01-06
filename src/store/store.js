@@ -3,22 +3,27 @@ import axios from 'axios';
 import router from '@/router/router';
 import signalR  from '@/services/signalRService';
 import { API_URLS } from '@/api/api.url';
+import { computed } from 'vue';
+
+
+
+const getDefaultState = () => ({
+  allUser: [],
+  user: {},
+  receiveMessage: [],
+  listRoom_id: [],
+  lisetMessager: [],
+  listSearch: [],
+  allFriend: [],
+  friendInvitation: [],
+  notification: {
+    message: '',
+    type: ''
+  }
+})
 
 const store = createStore({
-  state: {
-    allUser: [],
-    user: {},
-    receiveMessage: [],
-    listRoom_id: [],
-    lisetMessager:[],
-    listSearch:[],
-    allFriend: [],
-    friendInvitation: [],
-    notification: {
-      message: '',      
-      type: ''
-    }
-  },
+  state: computed(() => getDefaultState()).value,
   getters: {
     notification: function(state){
       return state.notification
@@ -49,8 +54,14 @@ const store = createStore({
     }
   },
   mutations: {
+    RESET_STATE(state) {
+      Object.assign(state, getDefaultState())
+    },
     setNotification(state, notification){
       state.notification = notification
+    },
+    updateReceiveMessage: function(state, message){
+      state.receiveMessage.push(message)
     },
     getUser(state, user){
       state.user = user
@@ -100,8 +111,8 @@ const store = createStore({
           message: Response.data.message,
           type: 'success'
         })
-        debugger;
       })
+
       .catch(error => {
         context.commit('setNotification', {
           message: error.response?.data?.message || 'Đăng ký thất bại',

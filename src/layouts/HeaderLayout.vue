@@ -30,15 +30,16 @@
     import { computed, ref } from 'vue';
     export default{
         setup(){
-            let router = useRouter();
+            let router = useRouter()
             let user = computed(() => store.state.user)
+
             let inputSearch = ref('')
             function turnPage(param){
                 if(localStorage.getItem('token') != undefined){
-                    router.push('profile')
+                    router.push({name: "profile"})
                 }
                 else{
-                    router.push(param)
+                    router.push({name: param})
                 }
             }
 
@@ -46,8 +47,9 @@
                 localStorage.removeItem('token')
                 localStorage.removeItem('user')
                 localStorage.removeItem('user_id')
+                store.commit('RESET_STATE')
                 await signalR.stopConnection();
-                router.push('login')
+                router.push({name:"login"})
                 console.log('xóa')
             }
 

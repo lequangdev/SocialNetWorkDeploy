@@ -1,6 +1,6 @@
 import * as signalR from "@microsoft/signalr";
 import { API_URLS } from "@/api/api.url";
-
+const joinedRoomIds = new Set()
 class SignalRService {
     constructor() {
         this.connection = new signalR.HubConnectionBuilder()
@@ -36,12 +36,20 @@ class SignalRService {
 
     async stopConnection() {
         this.startPromise = null;
+        joinedRoomIds.clear();
         return this.connection.stop();
     }
 
-    async connectionRoom(room_id) {
+    async connectionRoom(roomIds) {
         await this.startConnection();
-        return this.connection.invoke("JoinRoomChat", room_id);
+        const roomsToJoin = roomIds.filter(
+            id => !joinedRoomIds.has(id)
+          )
+          if (roomsToJoin.length === 0) return
+          await this.connection.invoke("JoinRoomChat", roomsToJoin)
+          console.log("conection room");
+          
+          roomsToJoin.forEach(id => joinedRoomIds.add(id))
     }
 
     onReceiveRoom(callback) {
@@ -56,6 +64,7 @@ class SignalRService {
     }
 
     onReceiveMessage(callback) {
+        this.connection.off("ReceiveMessage");
         this.connection.on("ReceiveMessage", callback);
     }
 

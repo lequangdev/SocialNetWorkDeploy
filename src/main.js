@@ -10,7 +10,10 @@ console.log("Token:", localStorage.getItem('token'));
 if (token) {
     signalR.startConnection(token);
 }
+signalR.onReceiveMessage((message) => {
+    store.commit("updateReceiveMessage", message)
 
+})
 
 app.use(store);
 app.use(router);

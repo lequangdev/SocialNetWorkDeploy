@@ -124,6 +124,7 @@
                 user_avatar: ref(''),
                 room_id:ref('') 
             }
+            let joinedRoomIds = new Set()
             let uploadToCloud = ref('')
             
             function handleFileChange(event) {
@@ -157,11 +158,11 @@
                 return await uploadToCloudinary(fileData.value, folderName, cloudType);
             }
             function getFileName(url) {
-            try {
-                return decodeURIComponent(url.split('/').pop().split('?')[0]);
-            } catch {
-                return 'unknown_file';
-            }
+                try {
+                    return decodeURIComponent(url.split('/').pop().split('?')[0]);
+                } catch {
+                    return 'unknown_file';
+                }
             }
             const formattedListMessager = computed(() => {
                 return listMessager.value.map(room => {
@@ -189,10 +190,6 @@
             // method
             onMounted( async () => {       
                 getListRoom_id()
-                signalR.onReceiveMessage((message) => {
-                    receiveMessage.value.push(message)
-                    scrollToBottom()
-                })
                 signalR.onReceiveRoom(() => {
                     getListRoom_id()
                 })
@@ -201,7 +198,6 @@
             onUnmounted(async () => {
                 await store.dispatch("resetReceiveMessage")
             })
-
             function autoConnectReceiverFromRoute() {
                 watch(
                     [() => route.params.id, () => formattedListMessager.value],
@@ -215,7 +211,18 @@
                     },
                     { immediate: true }
                 );
+
             }
+
+            watch(
+                () => listRoom_id.value,
+                async (newVal) => {
+                    if (!newVal?.length) return
+                    await getAllMessager()
+                    await signalR.connectionRoom(newVal)
+                },
+                { immediate: true }
+            )
 
             async function sendMessage(){
                 if (inputMessage.value.trim()) {
@@ -298,25 +305,27 @@
             async function getAllMessager(){
                 await store.dispatch("GetRoomWithUsersByRoom_id", listRoom_id.value)
             }
-            watch(
-            () => listRoom_id.value,
-                async (newVal) => {
-                    if (newVal && newVal.length > 0 ) {
-                        await getAllMessager();
-                        await signalR.connectionRoom(listRoom_id.value)
-                    }
-                }
-            );
+
             async function getMessageUser(id){
                 await store.dispatch('getMessageByRoomId', id)
             }
 
 
-            watch(receiveMessage, () => {
-                nextTick(() => {
-                    scrollToBottom();
-                });
-            });
+            watch(receiveMessage, async () => {
+                await nextTick()
+                scrollToBottom()
+            })
+            watch(
+                () => receiveMessage.value.length,
+                async (newLen, oldLen) => {
+                    if (newLen > oldLen) {
+                        await nextTick()
+                        scrollToBottom()
+                    }
+                }
+            )
+
+
             async function connectReceiver(param){
                 objInforChat.user_fullName.value = param.user_fullName
                 objInforChat.room_id.value = param.room_id
