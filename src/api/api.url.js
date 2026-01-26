@@ -1,5 +1,5 @@
-const API_BASE = "https://reverseproxy-wtdv.onrender.com";
-
+const API_BASE = process.env.VUE_APP_API_BASE;
+console.log(API_BASE);
 export const API_URLS = {
 
     LOGIN: `${API_BASE}/api-auth/auth/Login`,
