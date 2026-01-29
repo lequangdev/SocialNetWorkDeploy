@@ -154,7 +154,7 @@
                     cloudType = "video";
                     folderName = "video_socical"
                 }
-
+                console.log(fileData.value);
                 return await uploadToCloudinary(fileData.value, folderName, cloudType);
             }
             function getFileName(url) {

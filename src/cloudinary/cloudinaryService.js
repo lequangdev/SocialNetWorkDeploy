@@ -13,7 +13,7 @@ export async function uploadToCloudinary(file, folder_name, type) {
     const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${type}/upload`
     try {
         const response = await axios.post(UPLOAD_URL, formData)
-        return response.data.secure_url // hoặc return toàn bộ response.data nếu muốn nhiều info
+        return response.data.secure_url 
     } catch (error) {
         console.error('Upload to Cloudinary failed:', error)
         throw error

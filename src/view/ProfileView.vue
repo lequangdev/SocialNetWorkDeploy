@@ -38,8 +38,12 @@
         display: flex;
     }
     .profile_content{
-        padding:0 10px;
+        height: calc(100vh - 66px);
+        width: 100%;
+        flex: 1;
+        padding: 0 10px;
         background-color: #f1f3f5;
+        overflow-y: auto;
     }
     .profile_content-background{
         width: 1200px;

@@ -19,12 +19,16 @@ const getDefaultState = () => ({
   notification: {
     message: '',
     type: ''
-  }
+  },
+  postList: []
 })
 
 const store = createStore({
   state: computed(() => getDefaultState()).value,
   getters: {
+    postList: function(state){
+      return state.postList
+    },
     notification: function(state){
       return state.notification
     },
@@ -97,9 +101,44 @@ const store = createStore({
       state.friendInvitation = state.friendInvitation.filter(
         item => item.user_id !== user
       );
+    },
+    getPostList(state, payload){
+      state.postList = payload
     }
+
   },
   actions: {
+    insertPost(context, payload){
+      axios({
+        method: 'Post',
+        url: API_URLS.INSERT_POST,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        data: payload
+      })
+      .then(Response => {
+        
+      })
+      .catch(error => {
+        console.error('Lỗi:', error);
+      });
+    },
+    getPostList(context){
+      axios({
+        method: 'Get',
+        url: API_URLS.GET_POST_LIST,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      .then( Response => {
+          context.commit('getPostList', Response.data)
+      })
+      .catch(error => {
+        console.error('Lỗi:', error);
+      });
+    },
     registerUser(context ,user){
       axios({
         method: 'Post',
@@ -120,7 +159,6 @@ const store = createStore({
         })
       });
     },
-
     loginUser(context, request){
       axios({
         method: 'Post',
