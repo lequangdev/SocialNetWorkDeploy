@@ -124,7 +124,6 @@
                 user_avatar: ref(''),
                 room_id:ref('') 
             }
-            let joinedRoomIds = new Set()
             let uploadToCloud = ref('')
             
             function handleFileChange(event) {

@@ -100,15 +100,20 @@
                 </div>
 
             </div>
+            <div class="message_content-list">
+                <input v-model="inputSearchChat" type="text" class="form-control" placeholder="Tìm kiếm message" aria-label="Username" aria-describedby="addon-wrapping">
+                <div  @click="connectReceiver(room)" v-for="(room) in filteredFormattedListMessager" :key="room.room_id"  class="message_content-account message_content-mold"><img :src="room.user_avatar" alt="" class="avatar"><span class="message_content-describe">{{ room.user_fullName }}</span></div>
+            </div>
         </div>
     </HomeLayout>
 </template>
 
 <script>
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted, watch } from 'vue'
 import HomeLayout from '@/layouts/HomeLayout.vue'
 import { useStore } from 'vuex';
-import { uploadToCloudinary } from '@/cloudinary/cloudinaryService';
+import { uploadToCloudinary } from '@/cloudinary/cloudinaryService'
+import { useRouter,useRoute } from 'vue-router'
 
 export default {
     components: { HomeLayout },
@@ -116,13 +121,20 @@ export default {
     setup() {
         onMounted(() => {
             store.dispatch("getPostList")
+            getListRoom_id()
         })
         var store = useStore()
+        const router = useRouter()
+        const route = useRoute()
         const posts = computed(() => store.state.postList)
+        let listRoom_id = computed(() => store.state.listRoom_id)
         const newPost = ref({
             content: '',
             privacy: 2
         })
+        let listMessager = computed(() => store.state.lisetMessager)
+        const user_id = localStorage.getItem("user_id");
+        const inputSearchChat = ref('')
 
         const previews = ref([])
         const filesUpload = ref([])
@@ -154,10 +166,26 @@ export default {
             e.target.value = ''
         }
 
+        watch(
+                () => listRoom_id.value,
+                async (newVal) => {
+                    if (!newVal?.length) return
+                    await getAllMessager()
+                },
+                { immediate: true }
+            )
+
+
         const removePreview = (index) => {
             URL.revokeObjectURL(previews.value[index].url)
             previews.value.splice(index, 1)
             filesUpload.value.splice(index, 1)
+        }
+        async function getListRoom_id(){
+                await store.dispatch('getListRoom_id', user_id)
+        }
+        async function getAllMessager(){
+            await store.dispatch("GetRoomWithUsersByRoom_id", listRoom_id.value)
         }
 
         async function createPost() {
@@ -183,7 +211,32 @@ export default {
                 mediaDTOs: medias,
             }
             store.dispatch("insertPost", post)
+            newPost.value.content = ""
+            previews.value = ""
+
         }
+
+        const formattedListMessager = computed(() => {
+                return listMessager.value.map(room => {
+                    const otherUser = room.users.find(u => u.user_id !== user_id);
+                    return {
+                        room_id: room.room_id,
+                        user_id: otherUser?.user_id || "",
+                        user_fullName: otherUser?.user_fullName || "No name",
+                        user_avatar: otherUser?.user_avatar || "",
+                    };
+                });
+            });
+
+            const filteredFormattedListMessager = computed(() => {
+            if (!inputSearchChat.value.trim()) {
+                return formattedListMessager.value;
+            }
+            const keyword = inputSearchChat.value.toLowerCase().trim();
+            return formattedListMessager.value.filter(room =>
+                room.user_fullName.toLowerCase().includes(keyword)
+            );
+        });
 
         const mapPrivacy = (privacy) => {
             switch (privacy) {
@@ -193,6 +246,11 @@ export default {
                 default: return ''
             }
         }
+        async function connectReceiver(param){
+                if (route.params.id !== param.user_id) {
+                    router.push(`/messager/${param.user_id}`)
+                }
+            }
 
         const formatDate = (date) => {
             return new Date(date).toLocaleString('vi-VN')
@@ -207,7 +265,10 @@ export default {
             createPost,
             mapPrivacy,
             formatDate,
-            mediaLayoutClass
+            mediaLayoutClass,
+            filteredFormattedListMessager,
+            inputSearchChat,
+            connectReceiver
         }
     }
 }
@@ -220,13 +281,11 @@ html, body {
 }
 
 .home_content {
-    height: calc(100vh - 66px); /* trừ header */
+    height: calc(100vh - 66px);
     width: 100%;
     flex: 1;
-    padding: 0 10px;
-    background-color: #f1f3f5;
-
-    overflow-y: auto;   /* ✅ CHỈ SCROLL Ở ĐÂY */
+    padding-left: 10px;
+    display: flex;
 }
 
 .post-list {
@@ -238,13 +297,55 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    min-height: 100%; /* quan trọng */
+    overflow-y: auto;
+    min-height: 100%;
+    flex: 1;
+    background-color: #f1f3f5;
+}
+.message_content-list {
+        padding-left: 10px;
+        width: 320px;
+        overflow-y: scroll;
 }
 
+.message_content-list:hover::-webkit-scrollbar-thumb{
+        background-color: #bdbdbd;
+        border-radius: 4px;
+    }
+    ::-webkit-scrollbar{
+        width: 8px;;
+    }
 .create-post {
     width: 100%;
 }
+.message_content-describe{
+        font-size: 15px;
+        font-weight: 600;
+        padding: 6px;
+}
+.message_content-account .avatar {
+        display: block;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        padding: 6px;
+}
+.message_content-mold{
+        width: 290px;
+        height: 48px;
+        margin: 6px 0;
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        cursor: pointer;
+        border-radius: 8px;
+        background-color: white;
+        transition: background-color 0.2s ease;
+    }
+    .message_content-mold:hover{
+        background-color: #f1f3f5;
+        transition: none;
+    } 
 
 .create-post,
 .post-item {
@@ -274,6 +375,7 @@ textarea {
     display: flex;
     gap: 8px;
     margin-top: 10px;
+    cursor: pointer;
 }
 
 .preview-item {
@@ -333,6 +435,7 @@ textarea {
     display: grid;
     gap: 4px;
     overflow: hidden;
+    cursor: pointer;
 }
 .media-item {
     position: relative;

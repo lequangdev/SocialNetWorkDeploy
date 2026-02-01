@@ -13,6 +13,6 @@ export const API_URLS = {
     ADD_FRIEND: `${API_BASE}/api-auth/Friendship/AddFriend`,
     GET_ALL_FRIEND: `${API_BASE}/api-auth/Friendship/GetFriendByUser_id`,
     SIGNALR_URL: `${API_BASE}/hubs/chat`,
-    GET_POST_LIST:`${API_BASE}/api-post/Post/GetAllPostsDetail`,
+    GET_POST_LIST:`${API_BASE}/api-post/Post/GetAllPostsDetailPubllic`,
     INSERT_POST:`${API_BASE}/api-post/Post/InsertPost`,
 };

@@ -4,17 +4,22 @@ import router from "./router/router";
 import store from './store/store.js';
 import signalR from './services/signalRService.js'
 
+
+
 const app = createApp(App)
-const token = localStorage.getItem("token");
-console.log("Token:", localStorage.getItem('token'));
-if (token) {
-    signalR.startConnection(token);
-}
-signalR.onReceiveMessage((message) => {
-    store.commit("updateReceiveMessage", message)
-
-})
-
 app.use(store);
 app.use(router);
+
+
+const token = localStorage.getItem("token");
+if (token) {
+    signalR.startConnection(token);
+    signalR.onReceiveMessage((message) => {
+        store.commit("updateReceiveMessage", message)
+    }) 
+}
+else{
+    router.push("/login")
+}
+
 app.mount("#app"); 

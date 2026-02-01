@@ -20,7 +20,8 @@ const getDefaultState = () => ({
     message: '',
     type: ''
   },
-  postList: []
+  postList: [],
+  objInforChat: {}
 })
 
 const store = createStore({
@@ -28,6 +29,9 @@ const store = createStore({
   getters: {
     postList: function(state){
       return state.postList
+    },
+    objInforChat: function(state){
+      return state.objInforChat
     },
     notification: function(state){
       return state.notification
@@ -104,8 +108,10 @@ const store = createStore({
     },
     getPostList(state, payload){
       state.postList = payload
+    },
+    updateObjInforChat(state, payload){
+      state.postList = payload
     }
-
   },
   actions: {
     insertPost(context, payload){
@@ -118,7 +124,7 @@ const store = createStore({
         data: payload
       })
       .then(Response => {
-        
+        this.dispatch("getPostList")
       })
       .catch(error => {
         console.error('Lỗi:', error);
@@ -351,6 +357,9 @@ const store = createStore({
         console.error('Lỗi:', error);
       });
     },
+    pushPage(context, url){
+      router.push(url)
+    }
   }
 });
 
