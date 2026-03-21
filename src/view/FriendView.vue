@@ -15,7 +15,16 @@
                 <img :src="user.user_avatar" alt="">
                 <div class="user_fullName">{{ user.user_fullName }}</div>
                 <button v-on:click="agree(user.user_id)" class="chat_user">Đồng ý</button>
-                <button @click="notAgree(user.user_id)" class="chat_add-friend">Hủy</button>
+                <button @click="notAgree(user.user_id)" class="chat_add-friend">Từ chối</button>
+            </div>
+        </div>
+        <h3 class="friend_content-box--title">Đã gửi kết bạn tới những người</h3>
+        <div class="friend_content-box">
+            <div v-for="(user, index) in listFriendRequest" :key="index" class="friend_content-box--users">
+                <img :src="user.user_avatar" alt="">
+                <div class="user_fullName">{{ user.user_fullName }}</div>
+                <button v-on:click="chatUser(user.user_id)" class="chat_user">Nhắn tin</button>
+                <button @click="notAcceptFriendship(user.user_id)" class="chat_add-friend">Hủy yêu cầu</button>
             </div>
         </div>
     </div>
@@ -37,10 +46,12 @@
             const allUser = computed(() => store.state.allUser)
             const user_id = localStorage.getItem('user_id')
             const friendInvitation = computed(() => store.state.friendInvitation)
+            const listFriendRequest = computed(() => store.state.listFriendRequest)
             const friends = computed(() => store.state.allFriend)
             onMounted(() =>{
                 store.dispatch('getALLFriend')
                 store.dispatch('getALLFriendInvitation')
+                store.dispatch('getListFriendRequest')
                 signalRService.receiveFriendship((callback) => {
                     if(callback){
                         store.dispatch('getALLFriendInvitation')
@@ -69,6 +80,15 @@
                 store.commit('deleteFriendInvitation', friend)
                 await store.dispatch('getALLFriend')
             }
+            async function notAcceptFriendship(friend){
+                let payload = {
+                    user_id: user_id,
+                    friend_id: friend
+                }
+                signalRService.notAcceptFriendship(payload)
+                store.commit('deleteFriendInvitation', friend)
+                await store.dispatch('getListFriendRequest')
+            }
 
             function notAgree(friend){
                 let payload = {
@@ -89,7 +109,7 @@
             }
 
             return {
-                allUser, chatUser, friendInvitation,friends, agree, notAgree, deleteFriend
+                allUser, chatUser, friendInvitation,friends, agree, notAgree, deleteFriend, listFriendRequest, notAcceptFriendship
             }
         }
     }

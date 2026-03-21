@@ -15,4 +15,5 @@ export const API_URLS = {
     SIGNALR_URL: `${API_BASE}/hubs/chat`,
     GET_POST_LIST:`${API_BASE}/api-post/Post/GetAllPostsDetailPubllic`,
     INSERT_POST:`${API_BASE}/api-post/Post/InsertPost`,
+    GET_LIST_FRIEND_REQUEST: `${API_BASE}/api-auth/Friendship/GetFriendRequestByUser_id`,
 };

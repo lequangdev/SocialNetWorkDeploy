@@ -21,7 +21,8 @@ const getDefaultState = () => ({
     type: ''
   },
   postList: [],
-  objInforChat: {}
+  objInforChat: {},
+  listFriendRequest: []
 })
 
 const store = createStore({
@@ -29,6 +30,9 @@ const store = createStore({
   getters: {
     postList: function(state){
       return state.postList
+    },
+    listFriendRequest: function(state){
+      return state.listFriendRequest
     },
     objInforChat: function(state){
       return state.objInforChat
@@ -95,6 +99,9 @@ const store = createStore({
     },
     getALLFriend(state, friends){
       state.allFriend = friends
+    },
+    getListFriendRequest(state, listFriendRequest){
+      state.listFriendRequest = listFriendRequest
     },
     deleteFriend(state,friend){
       state.allFriend = state.allFriend.filter(
@@ -359,6 +366,22 @@ const store = createStore({
     },
     pushPage(context, url){
       router.push(url)
+    },
+    getListFriendRequest(context){
+      axios({
+        method: 'Get',
+        url: API_URLS.GET_LIST_FRIEND_REQUEST,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          id: localStorage.getItem('user_id')
+        }
+      })
+      .then(Response => {
+        context.commit('getListFriendRequest', Response.data)
+      })
+      .catch(error => {
+        console.error('Lỗi:', error);
+      });
     }
   }
 });

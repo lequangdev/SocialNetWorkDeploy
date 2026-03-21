@@ -10,7 +10,6 @@
         </div>
         <div class="container_header-category">
             <div class="container_header-category--addbox container_header-category--mold" placeholder="Add box" title="Tạo box chat"><i class="fa-solid fa-people-group"></i></div>
-            <div class="container_header-category--messager container_header-category--mold" placeholder="Messager" title="Messager"><i class="fa-solid fa-comment"></i></div>
             <div class="container_header-category--Notification container_header-category--mold" placeholder="Notification" title="Thông báo"><i class="fa-solid fa-bell"></i></div>
             <div @click="turnPage('login')" class="container_header-category--account container_header-category--mold">
                 <img :src="user.user_avatar" alt="" class="avatar">
