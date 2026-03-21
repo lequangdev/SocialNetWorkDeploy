@@ -88,12 +88,32 @@
                             <div class="post-footer-btn">
                                 <span><i data-visualcompletion="css-img" class="x1b0d499 x1d69dk1"
                                         style="background-image: url(&quot;https://static.xx.fbcdn.net/rsrc.php/v4/yZ/r/6IA92nEe6LR.png?_nc_eui2=AeEhwkKzznZba0HmLFBFTUdrxHbXP_lsqWHEdtc_-WypYXMnWOD51I7roPWI1fnzAtbLPEYLVrZ0ovOuQSPNXoXF&quot;); background-position: 0px -783px; background-size: auto; width: 20px; height: 20px; background-repeat: no-repeat; display: inline-block;"></i>Like</span>
-                                <span><i data-visualcompletion="css-img" class="x1b0d499 x1d69dk1"
+                                <span  @click="toggleComment(post.posts_id)"><i data-visualcompletion="css-img" class="x1b0d499 x1d69dk1"
                                         style="background-image: url(&quot;https://static.xx.fbcdn.net/rsrc.php/v4/yZ/r/6IA92nEe6LR.png?_nc_eui2=AeEhwkKzznZba0HmLFBFTUdrxHbXP_lsqWHEdtc_-WypYXMnWOD51I7roPWI1fnzAtbLPEYLVrZ0ovOuQSPNXoXF&quot;); background-position: 0px -741px; background-size: auto; width: 20px; height: 20px; background-repeat: no-repeat; display: inline-block;"></i>Bình
                                     luận </span>
                                 <span><i data-visualcompletion="css-img" class="x1b0d499 x1d69dk1"
                                         style="background-image: url(&quot;https://static.xx.fbcdn.net/rsrc.php/v4/yZ/r/6IA92nEe6LR.png?_nc_eui2=AeEhwkKzznZba0HmLFBFTUdrxHbXP_lsqWHEdtc_-WypYXMnWOD51I7roPWI1fnzAtbLPEYLVrZ0ovOuQSPNXoXF&quot;); background-position: 0px -804px; background-size: auto; width: 20px; height: 20px; background-repeat: no-repeat; display: inline-block;"></i>Chia
                                     sẻ</span>
+                            </div>
+                            <div v-if="activeCommentPostId === post.posts_id" class="post-footer-comment">
+                                <div class="post-footer-comment-list">
+                                    <div class="post-footer-comment-item" v-for="comment in comments" :key="comment.user_id">
+                                        <img :src="comment.user_avatar" />
+                                        <div class="comment-content">
+                                            <span>{{ comment.user_fullName }}</span>
+                                            <span class="comment-content-text">{{ comment.content }}</span>
+                                        </div>
+                                        <div class="comment-footer">
+                                            <span>{{ formatDate(comment.created_date) }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div  class="input-container">
+                                    <img class="avatar-comment" src="https://tte.edu.vn/public/upload/2025/01/avatar-de-thuong41.webp" />
+                                    <input type="text" placeholder="Thêm bình luận" />
+                                    <button class="post-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -126,6 +146,43 @@ export default {
         var store = useStore()
         const router = useRouter()
         const route = useRoute()
+        const comments = ref([
+            {
+                user_id: '1',
+                user_fullName: 'John Doe',
+                user_avatar: 'https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/655589553_2568119926988839_2889990803261269655_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeEqwNV6g-ya_s6ZbNys25vTfoHSWMVgQ7R-gdJYxWBDtK37hkbl4aeT3_B_csGL--rD7bF3tzOMVg6nws-u9HPQ&_nc_ohc=zwDNBQvuygMQ7kNvwHO5Jdr&_nc_oc=Adr2GvzOLI9B5IxqW77uQ7DiXjADw8vg-DiCkPjlVG0U46BRa9Q9xhISM97HuzG9fjAGaU9bQBoO25iJSMl7ONN-&_nc_zt=23&_nc_ht=scontent.fhan14-4.fna&_nc_gid=ewoKeF__W68EHvdj6tl-cg&_nc_ss=7a30f&oh=00_AfxVu8Kk1o-dsIKko3ki7IK1ZLsJyqcsVsxWgCOvtJc9qQ&oe=69C4449D',
+                content: 'This is a comment',
+                created_date: '2021-01-01'
+            },
+            {
+                user_id: '2',
+                user_fullName: 'Jane Doe',
+                user_avatar: 'https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/655589553_2568119926988839_2889990803261269655_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeEqwNV6g-ya_s6ZbNys25vTfoHSWMVgQ7R-gdJYxWBDtK37hkbl4aeT3_B_csGL--rD7bF3tzOMVg6nws-u9HPQ&_nc_ohc=zwDNBQvuygMQ7kNvwHO5Jdr&_nc_oc=Adr2GvzOLI9B5IxqW77uQ7DiXjADw8vg-DiCkPjlVG0U46BRa9Q9xhISM97HuzG9fjAGaU9bQBoO25iJSMl7ONN-&_nc_zt=23&_nc_ht=scontent.fhan14-4.fna&_nc_gid=ewoKeF__W68EHvdj6tl-cg&_nc_ss=7a30f&oh=00_AfxVu8Kk1o-dsIKko3ki7IK1ZLsJyqcsVsxWgCOvtJc9qQ&oe=69C4449D',
+                content: 'This is a comment',
+                created_date: '2021-01-01'
+            },
+            {
+                user_id: '3',
+                user_fullName: 'Jim Doe',
+                user_avatar: 'https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/655589553_2568119926988839_2889990803261269655_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeEqwNV6g-ya_s6ZbNys25vTfoHSWMVgQ7R-gdJYxWBDtK37hkbl4aeT3_B_csGL--rD7bF3tzOMVg6nws-u9HPQ&_nc_ohc=zwDNBQvuygMQ7kNvwHO5Jdr&_nc_oc=Adr2GvzOLI9B5IxqW77uQ7DiXjADw8vg-DiCkPjlVG0U46BRa9Q9xhISM97HuzG9fjAGaU9bQBoO25iJSMl7ONN-&_nc_zt=23&_nc_ht=scontent.fhan14-4.fna&_nc_gid=ewoKeF__W68EHvdj6tl-cg&_nc_ss=7a30f&oh=00_AfxVu8Kk1o-dsIKko3ki7IK1ZLsJyqcsVsxWgCOvtJc9qQ&oe=69C4449D',
+                content: 'This is a comment',
+                created_date: '2021-01-01'
+            },
+            {
+                user_id: '4',
+                user_fullName: 'Jill Doe',
+                user_avatar: 'https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/655589553_2568119926988839_2889990803261269655_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeEqwNV6g-ya_s6ZbNys25vTfoHSWMVgQ7R-gdJYxWBDtK37hkbl4aeT3_B_csGL--rD7bF3tzOMVg6nws-u9HPQ&_nc_ohc=zwDNBQvuygMQ7kNvwHO5Jdr&_nc_oc=Adr2GvzOLI9B5IxqW77uQ7DiXjADw8vg-DiCkPjlVG0U46BRa9Q9xhISM97HuzG9fjAGaU9bQBoO25iJSMl7ONN-&_nc_zt=23&_nc_ht=scontent.fhan14-4.fna&_nc_gid=ewoKeF__W68EHvdj6tl-cg&_nc_ss=7a30f&oh=00_AfxVu8Kk1o-dsIKko3ki7IK1ZLsJyqcsVsxWgCOvtJc9qQ&oe=69C4449D',
+                content: 'This is a commentfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
+                created_date: '2021-01-01'
+            },
+            {
+                user_id: '5',
+                user_fullName: 'Jack Doe',
+                user_avatar: 'https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/655589553_2568119926988839_2889990803261269655_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeEqwNV6g-ya_s6ZbNys25vTfoHSWMVgQ7R-gdJYxWBDtK37hkbl4aeT3_B_csGL--rD7bF3tzOMVg6nws-u9HPQ&_nc_ohc=zwDNBQvuygMQ7kNvwHO5Jdr&_nc_oc=Adr2GvzOLI9B5IxqW77uQ7DiXjADw8vg-DiCkPjlVG0U46BRa9Q9xhISM97HuzG9fjAGaU9bQBoO25iJSMl7ONN-&_nc_zt=23&_nc_ht=scontent.fhan14-4.fna&_nc_gid=ewoKeF__W68EHvdj6tl-cg&_nc_ss=7a30f&oh=00_AfxVu8Kk1o-dsIKko3ki7IK1ZLsJyqcsVsxWgCOvtJc9qQ&oe=69C4449D',
+                content: 'This is a comment',
+                created_date: '2021-01-01'
+            },
+        ])
         const posts = computed(() => store.state.postList)
         let listRoom_id = computed(() => store.state.listRoom_id)
         const newPost = ref({
@@ -138,6 +195,7 @@ export default {
 
         const previews = ref([])
         const filesUpload = ref([])
+        const activeCommentPostId = ref(null)
         const mediaLayoutClass = (count) => {
             if (count === 1) return 'layout-1'
             if (count === 2) return 'layout-2'
@@ -186,6 +244,10 @@ export default {
         }
         async function getAllMessager(){
             await store.dispatch("GetRoomWithUsersByRoom_id", listRoom_id.value)
+        }
+        const toggleComment = (postId) => {
+            activeCommentPostId.value =
+                activeCommentPostId.value === postId ? null : postId
         }
 
         async function createPost() {
@@ -268,7 +330,11 @@ export default {
             mediaLayoutClass,
             filteredFormattedListMessager,
             inputSearchChat,
-            connectReceiver
+            connectReceiver,
+            comments,
+            activeCommentPostId,
+            toggleComment,
+
         }
     }
 }
@@ -279,7 +345,94 @@ html, body {
     height: 100%;
     overflow: hidden;
 }
+.post-footer-comment{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 400px;
+    border: 1px solid #f1f3f5;
+    border-radius: 8px;
+    padding: 8px;
+    margin-top: 8px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 
+}
+
+.post-footer-comment-list{
+    overflow-y: scroll;
+    height: 100%;
+    margin-bottom: 40px;
+}
+.input-container{
+    display: flex;
+    width: 100%;
+    height: 40px;
+    border: 1px solid #f1f3f5;
+    border-radius: 8px;
+    padding: 2px;
+    margin-top: 8px;
+    background-color: #ffffff;
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   margin: 0 auto;
+   z-index: 1000;
+}
+.comment-content{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 8px;
+}
+.comment-footer{
+    display: flex;
+}
+.input-container input{
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    padding: 8px;
+    font-size: 16px;
+}
+.input-container button{
+    width: 100px;
+    height: 100%;
+    border: none;
+    outline: none;
+    padding: 8px;
+    font-size: 16px;
+}
+.post-footer-comment-item{
+    display: flex;
+    width: 100%;
+    border: 1px solid #f1f3f5;
+    border-radius: 8px;
+    padding: 8px;
+    margin-top: 8px;
+    background-color: #f1f3f5;
+}
+.post-footer-comment-item img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.comment-content-text{
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    color: #000000;
+    line-height: 1.5;
+    text-align: left;
+    word-wrap: break-word;
+    word-break: break-word;
+}
 .home_content {
     height: calc(100vh - 66px);
     width: 100%;
