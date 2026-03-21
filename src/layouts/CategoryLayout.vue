@@ -2,16 +2,16 @@
     <div class="container_category">
         <div @click="turnPage('/profile')" class="container_category-account container_category-mold"><img :src="user.user_avatar" alt="" class="avatar"><span class="container_category-describe">{{ user.user_fullName }}</span></div>
         <div @click="turnPage('/')" class="container_category-home container_category-mold">
-            <i data-visualcompletion="css-img" class="" style="background-image:url('https://static.xx.fbcdn.net/rsrc.php/v4/yd/r/th5hlSqj_gD.png?_nc_eui2=AeGdfLfpT3caBlJX0TNYuv4jP3T5FyevfWE_dPkXJ699YbUvcw__91dxDg-1QCX3Fa-aXuRr7UaYMGgrJzWVTD50');background-position:0 -888px;background-size:auto;width:36px;height:36px;background-repeat:no-repeat;display:inline-block"></i>
+            <i class="fa-solid fa-house cl_1877f2 size_icon"></i>
             <span class="container_category-describe">Home</span></div>
         <div @click="turnPage('/messager')" class="container_category-messager container_category-mold">
-            <i data-visualcompletion="css-img" class="" style="background-image: url(&quot;https://static.xx.fbcdn.net/rsrc.php/v4/y-/r/V7EsO5ESytF.png?_nc_eui2=AeGVEcnqDUdEKf1oQy3VDQ-Q-GrX7RWZo2j4atftFZmjaBE6pEMzN9JTVICVzj29JMqdwFgSDoZOzV2dj6FUWqfT&quot;); background-position: 0px 0px; background-size: auto; width: 36px; height: 36px; background-repeat: no-repeat; display: inline-block;"></i>
+            <i class="fa-solid fa-message cl_1877f2 size_icon"></i>
             <span class="container_category-describe">messager</span></div>
         <div @click="turnPage('/friend')" class="container_category-friend container_category-mold">
-            <i data-visualcompletion="css-img" class="" style="background-image:url('https://static.xx.fbcdn.net/rsrc.php/v4/yd/r/th5hlSqj_gD.png?_nc_eui2=AeGdfLfpT3caBlJX0TNYuv4jP3T5FyevfWE_dPkXJ699YbUvcw__91dxDg-1QCX3Fa-aXuRr7UaYMGgrJzWVTD50');background-position:0 -740px;background-size:auto;width:36px;height:36px;background-repeat:no-repeat;display:inline-block"></i>
+            <i class="fa-solid fa-user-friends cl_1877f2 size_icon"></i>
             <span class="container_category-describe">Bạn bè</span></div>
         <div @click="turnPage('/')" class="container_category-froup container_category-mold">
-            <i data-visualcompletion="css-img" class="" style="background-image:url('https://static.xx.fbcdn.net/rsrc.php/v4/yd/r/th5hlSqj_gD.png?_nc_eui2=AeGdfLfpT3caBlJX0TNYuv4jP3T5FyevfWE_dPkXJ699YbUvcw__91dxDg-1QCX3Fa-aXuRr7UaYMGgrJzWVTD50');background-position:0 -185px;background-size:auto;width:36px;height:36px;background-repeat:no-repeat;display:inline-block"></i>
+            <i class="fa-solid fa-users cl_1877f2 size_icon"></i>
             <span class="container_category-describe">Nhóm</span></div>
     </div>
 </template>
@@ -38,6 +38,20 @@ import { computed, onMounted } from 'vue';
         padding: 0;
         box-sizing: border-box;
         user-select: none;
+    }
+    .cl_1877f2{
+        color: #1877f2;
+    }
+    .size_icon{
+        font-size: 20px;
+        line-height: 40px;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        cursor: pointer;
+        background-color: #f7f8fa;
+        border-radius: 50%;
+        margin: 6px;
     }
     .container_category{
         height: calc(100vh - 66px);
