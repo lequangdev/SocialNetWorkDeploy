@@ -104,6 +104,14 @@ class SignalRService {
     receiveFriendship(callback) {
         this.connection.on("ReceiveFromSendFriend", callback);
     }
+    async sendCommentPost(payload) {
+        console.log(payload);
+        await this.startConnection();
+        return this.connection.invoke("SendCommentPostAsync", payload);
+    }
+    receiveCommentPost(callback){
+        this.connection.on("ReceiveCommentPost", callback);
+    }
 }
 
 export default new SignalRService();
