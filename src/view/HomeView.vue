@@ -83,17 +83,41 @@
                                 <span><img class="x16dsc37" height="18" role="presentation" width="18"
                                         src="data:image/svg+xml,%3Csvg fill='none' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M16.0001 7.9996c0 4.418-3.5815 7.9996-7.9995 7.9996S.001 12.4176.001 7.9996 3.5825 0 8.0006 0C12.4186 0 16 3.5815 16 7.9996Z' fill='url(%23paint0_linear_15251_63610)'/%3E%3Cpath d='M16.0001 7.9996c0 4.418-3.5815 7.9996-7.9995 7.9996S.001 12.4176.001 7.9996 3.5825 0 8.0006 0C12.4186 0 16 3.5815 16 7.9996Z' fill='url(%23paint1_radial_15251_63610)'/%3E%3Cpath d='M16.0001 7.9996c0 4.418-3.5815 7.9996-7.9995 7.9996S.001 12.4176.001 7.9996 3.5825 0 8.0006 0C12.4186 0 16 3.5815 16 7.9996Z' fill='url(%23paint2_radial_15251_63610)' fill-opacity='.5'/%3E%3Cpath d='M7.3014 3.8662a.6974.6974 0 0 1 .6974-.6977c.6742 0 1.2207.5465 1.2207 1.2206v1.7464a.101.101 0 0 0 .101.101h1.7953c.992 0 1.7232.9273 1.4917 1.892l-.4572 1.9047a2.301 2.301 0 0 1-2.2374 1.764H6.9185a.5752.5752 0 0 1-.5752-.5752V7.7384c0-.4168.097-.8278.2834-1.2005l.2856-.5712a3.6878 3.6878 0 0 0 .3893-1.6509l-.0002-.4496ZM4.367 7a.767.767 0 0 0-.7669.767v3.2598a.767.767 0 0 0 .767.767h.767a.3835.3835 0 0 0 .3835-.3835V7.3835A.3835.3835 0 0 0 5.134 7h-.767Z' fill='%23fff'/%3E%3Cdefs%3E%3CradialGradient id='paint1_radial_15251_63610' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='rotate(90 .0005 8) scale(7.99958)'%3E%3Cstop offset='.5618' stop-color='%230866FF' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%230866FF' stop-opacity='.1'/%3E%3C/radialGradient%3E%3CradialGradient id='paint2_radial_15251_63610' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='rotate(45 -4.5257 10.9237) scale(10.1818)'%3E%3Cstop offset='.3143' stop-color='%2302ADFC'/%3E%3Cstop offset='1' stop-color='%2302ADFC' stop-opacity='0'/%3E%3C/radialGradient%3E%3ClinearGradient id='paint0_linear_15251_63610' x1='2.3989' y1='2.3999' x2='13.5983' y2='13.5993' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%2302ADFC'/%3E%3Cstop offset='.5' stop-color='%230866FF'/%3E%3Cstop offset='1' stop-color='%232B7EFF'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E">
                                     {{ post.like_count }}</span>
-                                <span>{{ post.comment_count }} Bình luận</span>
+                                <span>{{ post.userComments.length }} Bình luận</span>
                             </div>
                             <div class="post-footer-btn">
                                 <span><i data-visualcompletion="css-img" class="x1b0d499 x1d69dk1"
                                         style="background-image: url(&quot;https://static.xx.fbcdn.net/rsrc.php/v4/yZ/r/6IA92nEe6LR.png?_nc_eui2=AeEhwkKzznZba0HmLFBFTUdrxHbXP_lsqWHEdtc_-WypYXMnWOD51I7roPWI1fnzAtbLPEYLVrZ0ovOuQSPNXoXF&quot;); background-position: 0px -783px; background-size: auto; width: 20px; height: 20px; background-repeat: no-repeat; display: inline-block;"></i>Like</span>
-                                <span><i data-visualcompletion="css-img" class="x1b0d499 x1d69dk1"
+                                <span @click="toggleComment(post.posts_id)"><i data-visualcompletion="css-img"
+                                        class="x1b0d499 x1d69dk1"
                                         style="background-image: url(&quot;https://static.xx.fbcdn.net/rsrc.php/v4/yZ/r/6IA92nEe6LR.png?_nc_eui2=AeEhwkKzznZba0HmLFBFTUdrxHbXP_lsqWHEdtc_-WypYXMnWOD51I7roPWI1fnzAtbLPEYLVrZ0ovOuQSPNXoXF&quot;); background-position: 0px -741px; background-size: auto; width: 20px; height: 20px; background-repeat: no-repeat; display: inline-block;"></i>Bình
                                     luận </span>
                                 <span><i data-visualcompletion="css-img" class="x1b0d499 x1d69dk1"
                                         style="background-image: url(&quot;https://static.xx.fbcdn.net/rsrc.php/v4/yZ/r/6IA92nEe6LR.png?_nc_eui2=AeEhwkKzznZba0HmLFBFTUdrxHbXP_lsqWHEdtc_-WypYXMnWOD51I7roPWI1fnzAtbLPEYLVrZ0ovOuQSPNXoXF&quot;); background-position: 0px -804px; background-size: auto; width: 20px; height: 20px; background-repeat: no-repeat; display: inline-block;"></i>Chia
                                     sẻ</span>
+                            </div>
+                            <div v-if="activeCommentPostId === post.posts_id" class="post-footer-comment">
+                                <div class="post-footer-comment-list">
+                                    <div class="post-footer-comment-item"
+                                        v-for="comment in post.userComments" :key="comment.post_comments_id">
+                                        <img :src="comment.user_avatar" />
+                                        <div class="comment-content">
+                                            <span>{{ comment.user_fullName }}</span>
+                                            <span class="comment-content-text">{{ comment.content }}</span>
+                                        </div>
+                                        <div class="comment-footer">
+                                            <span>{{ formatDate(comment.created_date) }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="input-container">
+                                    <img class="avatar-comment"
+                                        src="https://tte.edu.vn/public/upload/2025/01/avatar-de-thuong41.webp" />
+                                    <input v-model="textComment" type="text" placeholder="Thêm bình luận" />
+                                    <button @click="postComment(post.posts_id)" class="post-btn"><i
+                                            class="fa-solid fa-paper-plane"></i></button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -101,8 +125,11 @@
 
             </div>
             <div class="message_content-list">
-                <input v-model="inputSearchChat" type="text" class="form-control" placeholder="Tìm kiếm message" aria-label="Username" aria-describedby="addon-wrapping">
-                <div  @click="connectReceiver(room)" v-for="(room) in filteredFormattedListMessager" :key="room.room_id"  class="message_content-account message_content-mold"><img :src="room.user_avatar" alt="" class="avatar"><span class="message_content-describe">{{ room.user_fullName }}</span></div>
+                <input v-model="inputSearchChat" type="text" class="form-control" placeholder="Tìm kiếm message"
+                    aria-label="Username" aria-describedby="addon-wrapping">
+                <div @click="connectReceiver(room)" v-for="(room) in filteredFormattedListMessager" :key="room.room_id"
+                    class="message_content-account message_content-mold"><img :src="room.user_avatar" alt=""
+                        class="avatar"><span class="message_content-describe">{{ room.user_fullName }}</span></div>
             </div>
         </div>
     </HomeLayout>
@@ -113,7 +140,8 @@ import { computed, ref, onMounted, watch } from 'vue'
 import HomeLayout from '@/layouts/HomeLayout.vue'
 import { useStore } from 'vuex';
 import { uploadToCloudinary } from '@/cloudinary/cloudinaryService'
-import { useRouter,useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import signalRService from '@/services/signalRService';
 
 export default {
     components: { HomeLayout },
@@ -138,6 +166,8 @@ export default {
 
         const previews = ref([])
         const filesUpload = ref([])
+        const activeCommentPostId = ref(null)
+        const textComment = ref('')
         const mediaLayoutClass = (count) => {
             if (count === 1) return 'layout-1'
             if (count === 2) return 'layout-2'
@@ -167,13 +197,13 @@ export default {
         }
 
         watch(
-                () => listRoom_id.value,
-                async (newVal) => {
-                    if (!newVal?.length) return
-                    await getAllMessager()
-                },
-                { immediate: true }
-            )
+            () => listRoom_id.value,
+            async (newVal) => {
+                if (!newVal?.length) return
+                await getAllMessager()
+            },
+            { immediate: true }
+        )
 
 
         const removePreview = (index) => {
@@ -181,11 +211,15 @@ export default {
             previews.value.splice(index, 1)
             filesUpload.value.splice(index, 1)
         }
-        async function getListRoom_id(){
-                await store.dispatch('getListRoom_id', user_id)
+        async function getListRoom_id() {
+            await store.dispatch('getListRoom_id', user_id)
         }
-        async function getAllMessager(){
+        async function getAllMessager() {
             await store.dispatch("GetRoomWithUsersByRoom_id", listRoom_id.value)
+        }
+        const toggleComment = (postId) => {
+            activeCommentPostId.value =
+                activeCommentPostId.value === postId ? null : postId
         }
 
         async function createPost() {
@@ -217,18 +251,18 @@ export default {
         }
 
         const formattedListMessager = computed(() => {
-                return listMessager.value.map(room => {
-                    const otherUser = room.users.find(u => u.user_id !== user_id);
-                    return {
-                        room_id: room.room_id,
-                        user_id: otherUser?.user_id || "",
-                        user_fullName: otherUser?.user_fullName || "No name",
-                        user_avatar: otherUser?.user_avatar || "",
-                    };
-                });
+            return listMessager.value.map(room => {
+                const otherUser = room.users.find(u => u.user_id !== user_id);
+                return {
+                    room_id: room.room_id,
+                    user_id: otherUser?.user_id || "",
+                    user_fullName: otherUser?.user_fullName || "No name",
+                    user_avatar: otherUser?.user_avatar || "",
+                };
             });
+        });
 
-            const filteredFormattedListMessager = computed(() => {
+        const filteredFormattedListMessager = computed(() => {
             if (!inputSearchChat.value.trim()) {
                 return formattedListMessager.value;
             }
@@ -246,15 +280,25 @@ export default {
                 default: return ''
             }
         }
-        async function connectReceiver(param){
-                if (route.params.id !== param.user_id) {
-                    router.push(`/messager/${param.user_id}`)
-                }
+        async function connectReceiver(param) {
+            if (route.params.id !== param.user_id) {
+                router.push(`/messager/${param.user_id}`)
             }
+        }
 
         const formatDate = (date) => {
             return new Date(date).toLocaleString('vi-VN')
         }
+        function postComment(postId) {
+            let comment = {
+                user_id: user_id,
+                posts_id: postId,
+                content: textComment.value
+            }
+            signalRService.sendCommentPost(comment)
+        }
+
+
 
         return {
             posts,
@@ -268,16 +312,127 @@ export default {
             mediaLayoutClass,
             filteredFormattedListMessager,
             inputSearchChat,
-            connectReceiver
+            connectReceiver,
+            activeCommentPostId,
+            toggleComment,
+            postComment,
+            textComment,
+            user_id
+
         }
     }
 }
 </script>
 
 <style scoped>
-html, body {
+html,
+body {
     height: 100%;
     overflow: hidden;
+}
+
+.post-footer-comment {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 400px;
+    border: 1px solid #f1f3f5;
+    border-radius: 8px;
+    padding: 8px;
+    margin-top: 8px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+
+}
+
+.post-footer-comment-list {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    height: 100%;
+    margin-bottom: 40px;
+}
+
+.input-container {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    border: 1px solid #f1f3f5;
+    border-radius: 8px;
+    padding: 2px;
+    margin-top: 8px;
+    background-color: #ffffff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    z-index: 1000;
+}
+
+.comment-content {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    height: 100%;
+    margin: 0 10px 0 5px;
+}
+
+.comment-footer {
+    display: flex;
+    font-size: 12px;
+    justify-content: flex-end;
+}
+
+
+.input-container input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    padding: 8px;
+    font-size: 16px;
+    background-color: #f1f3f5;
+}
+
+.input-container button {
+    width: 100px;
+    height: 100%;
+    border: none;
+    outline: none;
+    padding: 8px;
+    font-size: 16px;
+}
+
+.post-footer-comment-item {
+    display: flex;
+    max-width: 400px;
+    border: 1px solid #f1f3f5;
+    border-radius: 22px;
+    padding: 8px;
+    margin-top: 8px;
+    background-color: #f1f3f5;
+    width: fit-content;
+}
+
+.post-footer-comment-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.comment-content-text {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    color: #000000;
+    line-height: 1.5;
+    text-align: left;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .home_content {
@@ -302,50 +457,58 @@ html, body {
     flex: 1;
     background-color: #f1f3f5;
 }
+
 .message_content-list {
-        padding-left: 10px;
-        width: 320px;
-        overflow-y: scroll;
+    padding-left: 10px;
+    width: 320px;
+    overflow-y: scroll;
 }
 
-.message_content-list:hover::-webkit-scrollbar-thumb{
-        background-color: #bdbdbd;
-        border-radius: 4px;
-    }
-    ::-webkit-scrollbar{
-        width: 8px;;
-    }
+.message_content-list:hover::-webkit-scrollbar-thumb {
+    background-color: #bdbdbd;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    ;
+}
+
 .create-post {
     width: 100%;
 }
-.message_content-describe{
-        font-size: 15px;
-        font-weight: 600;
-        padding: 6px;
+
+.message_content-describe {
+    font-size: 15px;
+    font-weight: 600;
+    padding: 6px;
 }
+
 .message_content-account .avatar {
-        display: block;
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        padding: 6px;
+    display: block;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    padding: 6px;
 }
-.message_content-mold{
-        width: 290px;
-        height: 48px;
-        margin: 6px 0;
-        display: flex;
-        align-items: center;
-        padding: 8px;
-        cursor: pointer;
-        border-radius: 8px;
-        background-color: white;
-        transition: background-color 0.2s ease;
-    }
-    .message_content-mold:hover{
-        background-color: #f1f3f5;
-        transition: none;
-    } 
+
+.message_content-mold {
+    width: 290px;
+    height: 48px;
+    margin: 6px 0;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 8px;
+    background-color: white;
+    transition: background-color 0.2s ease;
+}
+
+.message_content-mold:hover {
+    background-color: #f1f3f5;
+    transition: none;
+}
 
 .create-post,
 .post-item {
@@ -414,7 +577,7 @@ textarea {
     color: white;
     border: none;
     border-radius: 6px;
-    padding: 6px 14px;
+    padding: 6px 16px;
     cursor: pointer;
 }
 
@@ -437,15 +600,18 @@ textarea {
     overflow: hidden;
     cursor: pointer;
 }
+
 .media-item {
     position: relative;
     background-color: #555;
 }
-.media-item img{
+
+.media-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
+
 .media-item video {
     max-height: 700px;
     width: auto;
@@ -458,10 +624,12 @@ textarea {
 .layout-1 {
     grid-template-columns: 1fr;
 }
+
 .layout-2 {
     grid-template-columns: repeat(2, 1fr);
     height: 350px;
 }
+
 .layout-3 {
     grid-template-columns: 2fr 1fr;
     grid-template-rows: repeat(2, 1fr);
@@ -471,11 +639,13 @@ textarea {
 .layout-3 .media-item:first-child {
     grid-row: span 2;
 }
+
 .layout-4 {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
     height: 700px;
 }
+
 .layout-5 {
     grid-template-columns: 2fr 1fr;
     grid-template-rows: repeat(2, 1fr);
@@ -485,15 +655,17 @@ textarea {
 .layout-5 .media-item:first-child {
     grid-row: span 2;
 }
-.optionPrivacy{
+
+.optionPrivacy {
     margin: 0 4px;
     padding: 5px;
     cursor: pointer;
 }
+
 .media-more {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,.6);
+    background: rgba(0, 0, 0, .6);
     color: white;
     font-size: 32px;
     font-weight: bold;
@@ -540,12 +712,14 @@ textarea {
 .post-footer span:hover {
     background-color: #f1f3f5;
 }
-.icon-btn{
+
+.icon-btn {
     margin: 0 4px;
     padding: 5px;
     border-radius: 4PX;
 }
-.icon-btn:hover{
+
+.icon-btn:hover {
     background-color: #E2E5E9;
     cursor: pointer;
 }
